@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>الإعدادات</title>
+
+<link rel="preconnect"
+href="https://fonts.googleapis.com">
+
+<link rel="preconnect"
+href="https://fonts.gstatic.com"
+crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800&display=swap"
+rel="stylesheet">
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+<link rel="stylesheet"
+href="css/style.css">
+
+</head>
+
+<body class="dashboard-page">
+
+<div class="dashboard">
+
+<header class="topbar">
+
+<div class="left">
+
+<button
+class="menu-btn"
+onclick="location.href='dashboard.html'">
+
+<i class="fa-solid fa-arrow-right"></i>
+
+</button>
+
+</div>
+
+<div class="center">
+
+<h2>
+
+الإعدادات
+
+</h2>
+
+<p>
+
+إعدادات النظام
+
+</p>
+
+</div>
+
+<div class="right">
+
+</div>
+
+</header>
+
+<section class="settings-card">
+
+<div class="setting-item">
+
+<label>
+
+رصيد الصندوق الافتتاحي
+
+</label>
+
+<input
+type="number"
+id="openingCash">
+
+</div>
+
+<div class="setting-item">
+
+<label>
+
+رصيد البنك الافتتاحي
+
+</label>
+
+<input
+type="number"
+id="openingBank">
+
+</div>
+
+<div class="setting-item">
+
+<label>
+
+كود الدخول
+
+</label>
+
+<input
+type="password"
+maxlength="6"
+id="loginCode">
+
+</div>
+
+<div class="setting-item switch-item">
+
+<label>
+
+الوضع الداكن
+
+</label>
+
+<label class="switch">
+
+<input
+type="checkbox"
+id="darkMode">
+
+<span class="slider"></span>
+
+</label>
+
+</div>
+
+<button
+class="save-btn"
+id="saveSettings">
+
+حفظ الإعدادات
+
+</button>
+
+</section>
+<!-- ======================
+Bottom Navigation
+====================== -->
+
+<nav class="bottom-nav">
+
+    <button onclick="location.href='dashboard.html'">
+
+        <i class="fa-solid fa-house"></i>
+
+        <span>الرئيسية</span>
+
+    </button>
+
+    <button onclick="location.href='history.html'">
+
+        <i class="fa-solid fa-clock-rotate-left"></i>
+
+        <span>السجل</span>
+
+    </button>
+
+    <button class="active">
+
+        <i class="fa-solid fa-gear"></i>
+
+        <span>الإعدادات</span>
+
+    </button>
+
+</nav>
+
+</div>
+
+<script src="js/storage.js"></script>
+
+<script src="js/settings.js"></script>
+
+</body>
+
+</html>
