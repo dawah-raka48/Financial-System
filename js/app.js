@@ -63,11 +63,13 @@ window.addEventListener("click", (e) => {
 
 function loadDashboard(){
 
-    cashBalance.textContent =
-        settings.cashBalance.toLocaleString("ar-SA") + " ريال";
+    const balances = STORAGE.calculateBalances();
 
-    bankBalance.textContent =
-        settings.bankBalance.toLocaleString("ar-SA") + " ريال";
+cashBalance.textContent =
+balances.cash.toLocaleString("ar-SA") + " ريال";
+
+bankBalance.textContent =
+balances.bank.toLocaleString("ar-SA") + " ريال";
 
     calculateMonth();
 
