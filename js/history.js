@@ -158,3 +158,134 @@ monthFilter.addEventListener("change",()=>{
     renderHistory(result);
 
 });
+/* ==========================================
+   Delete Transaction
+========================================== */
+
+function deleteTransaction(id){
+
+    const confirmDelete = confirm("هل تريد حذف هذه الحركة؟");
+
+    if(!confirmDelete) return;
+
+    STORAGE.deleteTransaction(id);
+
+    transactions = STORAGE.getTransactions();
+
+    renderHistory(transactions);
+
+}
+
+/* ==========================================
+   Edit Transaction
+========================================== */
+
+const editModal =
+document.getElementById("editModal");
+
+const closeEditModal =
+document.getElementById("closeEditModal");
+
+const updateTransaction =
+document.getElementById("updateTransaction");
+
+let currentId = null;
+
+function editTransaction(id){
+
+    currentId = id;
+
+    const item =
+    transactions.find(t=>t.id===id);
+
+    if(!item) return;
+
+    document.getElementById("editDate").value =
+    item.date;
+
+    document.getElementById("editType").value =
+    item.type;
+
+    document.getElementById("editPayment").value =
+    item.payment;
+
+    document.getElementById("editAmount").value =
+    item.amount;
+
+    document.getElementById("editPerson").value =
+    item.person;
+
+    document.getElementById("editNote").value =
+    item.note;
+
+    editModal.classList.add("show");
+
+}
+
+/* ==========================================
+   Close Modal
+========================================== */
+
+closeEditModal.onclick=()=>{
+
+    editModal.classList.remove("show");
+
+}
+
+window.addEventListener("click",(e)=>{
+
+    if(e.target===editModal){
+
+        editModal.classList.remove("show");
+
+    }
+
+});
+
+/* ==========================================
+   Save Edit
+========================================== */
+
+updateTransaction.addEventListener("click",()=>{
+
+    const index =
+    transactions.findIndex(t=>t.id===currentId);
+
+    if(index===-1) return;
+
+    transactions[index].date =
+    document.getElementById("editDate").value;
+
+    transactions[index].type =
+    document.getElementById("editType").value;
+
+    transactions[index].payment =
+    document.getElementById("editPayment").value;
+
+    transactions[index].amount =
+    Number(document.getElementById("editAmount").value);
+
+    transactions[index].person =
+    document.getElementById("editPerson").value;
+
+    transactions[index].note =
+    document.getElementById("editNote").value;
+
+    STORAGE.saveTransactions(transactions);
+
+    editModal.classList.remove("show");
+
+    renderHistory(transactions);
+
+});
+/* ==========================================
+   Print Month
+========================================== */
+
+document
+.getElementById("printMonth")
+.addEventListener("click",()=>{
+
+    window.print();
+
+});
