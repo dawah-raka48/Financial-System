@@ -108,3 +108,57 @@ const STORAGE = {
     }
 
 };
+/* ==========================
+   حساب الرصيد الحالي
+========================== */
+
+calculateBalances() {
+
+    const settings = this.getSettings();
+
+    const transactions = this.getTransactions();
+
+    let cash = Number(settings.cashBalance) || 0;
+    let bank = Number(settings.bankBalance) || 0;
+
+    transactions.forEach(item => {
+
+        if (item.payment === "cash") {
+
+            if (item.type === "income") {
+
+                cash += Number(item.amount);
+
+            } else {
+
+                cash -= Number(item.amount);
+
+            }
+
+        }
+
+        if (item.payment === "bank") {
+
+            if (item.type === "income") {
+
+                bank += Number(item.amount);
+
+            } else {
+
+                bank -= Number(item.amount);
+
+            }
+
+        }
+
+    });
+
+    return {
+
+        cash,
+
+        bank
+
+    };
+
+},
