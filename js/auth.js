@@ -3,7 +3,7 @@
    Authentication
 ========================================== */
 
-const LOGIN_CODE = "258963";
+const LOGIN_CODE = "123456";
 
 const inputs = document.querySelectorAll(".pin");
 const message = document.getElementById("loginMessage");
