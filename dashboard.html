@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <title>لوحة التحكم</title>
+
+    <link rel="preconnect"
+        href="https://fonts.googleapis.com">
+
+    <link rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+    <link rel="stylesheet"
+        href="css/style.css">
+
+</head>
+
+<body class="dashboard-page">
+
+<div class="dashboard">
+
+<!--=====================
+Header
+======================-->
+
+<header class="topbar">
+
+<div class="left">
+
+<button class="menu-btn">
+
+<i class="fa-solid fa-bars"></i>
+
+</button>
+
+</div>
+
+<div class="center">
+
+<h2>
+
+نظام إدارة الصندوق
+
+</h2>
+
+<p id="todayDate">
+
+21 يوليو 2026
+
+</p>
+
+</div>
+
+<div class="right">
+
+<button class="setting-btn"
+onclick="location.href='settings.html'">
+
+<i class="fa-solid fa-gear"></i>
+
+</button>
+
+</div>
+
+</header>
+
+<!--=====================
+Cards
+======================-->
+
+<section class="cards">
+
+<div class="card blue">
+
+<div class="icon">
+
+<i class="fa-solid fa-wallet"></i>
+
+</div>
+
+<div>
+
+<span>
+
+رصيد الصندوق
+
+</span>
+
+<h3 id="cashBalance">
+
+0 ريال
+
+</h3>
+
+</div>
+
+</div>
+
+<div class="card purple">
+
+<div class="icon">
+
+<i class="fa-solid fa-building-columns"></i>
+
+</div>
+
+<div>
+
+<span>
+
+رصيد البنك
+
+</span>
+
+<h3 id="bankBalance">
+
+0 ريال
+
+</h3>
+
+</div>
+
+</div>
+
+<div class="card green">
+
+<div class="icon">
+
+<i class="fa-solid fa-arrow-trend-up"></i>
+
+</div>
+
+<div>
+
+<span>
+
+إيداعات الشهر
+
+</span>
+
+<h3 id="incomeMonth">
+
+0 ريال
+
+</h3>
+
+</div>
+
+</div>
+
+<div class="card red">
+
+<div class="icon">
+
+<i class="fa-solid fa-arrow-trend-down"></i>
+
+</div>
+
+<div>
+
+<span>
+
+مصروفات الشهر
+
+</span>
+
+<h3 id="expenseMonth">
+
+0 ريال
+
+</h3>
+
+</div>
+
+</div>
+
+</section>
+
+<!--=====================
+Buttons
+======================-->
+
+<section class="actions">
+
+<button
+class="action blue"
+id="openModal">
+
+<i class="fa-solid fa-plus"></i>
+
+<span>
+
+إضافة حركة
+
+</span>
+
+</button>
+
+<button
+class="action green"
+onclick="location.href='history.html'">
+
+<i class="fa-solid fa-clock-rotate-left"></i>
+
+<span>
+
+السجل
+
+</span>
+
+</button>
+
+</section>
+
+<!--=====================
+Last Operations
+======================-->
+
+<section class="latest">
+
+<div class="title">
+
+<h3>
+
+آخر العمليات
+
+</h3>
+
+</div>
+
+<div
+id="latestContainer">
+
+<!-- يتم تعبئته بالجافاسكربت -->
+
+</div>
+
+</section>
+<!-- =====================
+Add Transaction Modal
+====================== -->
+
+<div class="modal" id="transactionModal">
+
+    <div class="modal-card">
+
+        <div class="modal-header">
+
+            <h3>إضافة حركة جديدة</h3>
+
+            <button id="closeModal">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+        </div>
+
+        <div class="form-grid">
+
+            <div class="form-group">
+                <label>التاريخ</label>
+                <input type="date" id="date">
+            </div>
+
+            <div class="form-group">
+                <label>نوع الحركة</label>
+
+                <select id="type">
+                    <option value="expense">صرف</option>
+                    <option value="income">إيداع</option>
+                </select>
+
+            </div>
+
+            <div class="form-group">
+
+                <label>طريقة الدفع</label>
+
+                <select id="payment">
+
+                    <option value="cash">كاش</option>
+
+                    <option value="bank">
+                        بنك
+                    </option>
+
+                </select>
+
+            </div>
+
+            <div class="form-group">
+
+                <label>المبلغ</label>
+
+                <input
+                    type="number"
+                    id="amount"
+                    placeholder="0">
+
+            </div>
+
+            <div class="form-group full">
+
+                <label>
+
+                    المستفيد
+
+                </label>
+
+                <input
+                    type="text"
+                    id="person">
+
+            </div>
+
+            <div class="form-group full">
+
+                <label>
+
+                    البيان
+
+                </label>
+
+                <textarea
+                    id="note"
+                    rows="3"></textarea>
+
+            </div>
+
+        </div>
+
+        <div class="modal-buttons">
+
+            <button
+                id="saveTransaction"
+                class="save-btn">
+
+                حفظ الحركة
+
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- =====================
+Bottom Navigation
+====================== -->
+
+<nav class="bottom-nav">
+
+<button class="active">
+
+<i class="fa-solid fa-house"></i>
+
+<span>
+
+الرئيسية
+
+</span>
+
+</button>
+
+<button
+onclick="location.href='history.html'">
+
+<i class="fa-solid fa-clock-rotate-left"></i>
+
+<span>
+
+السجل
+
+</span>
+
+</button>
+
+<button
+onclick="location.href='settings.html'">
+
+<i class="fa-solid fa-gear"></i>
+
+<span>
+
+الإعدادات
+
+</span>
+
+</button>
+
+</nav>
+
+</div>
+
+<script src="js/storage.js"></script>
+
+<script src="js/app.js"></script>
+
+</body>
+
+</html>
