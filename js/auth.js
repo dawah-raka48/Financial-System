@@ -3,7 +3,8 @@
    Authentication
 ========================================== */
 
-const LOGIN_CODE = "123456";
+const LOGIN_CODE =
+localStorage.getItem("financial_code") || "123456";
 
 const inputs = document.querySelectorAll(".pin");
 const message = document.getElementById("loginMessage");
