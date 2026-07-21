@@ -337,3 +337,46 @@ today.toLocaleDateString("ar-SA",{
     day:"numeric"
 
 });
+/* ==========================================
+   Live Clock
+========================================== */
+
+function updateClock(){
+
+    const now = new Date();
+
+    const day = now.toLocaleDateString("ar-SA",{
+
+        weekday:"long"
+
+    });
+
+    const date = now.toLocaleDateString("ar-SA",{
+
+        year:"numeric",
+
+        month:"long",
+
+        day:"numeric"
+
+    });
+
+    const time = now.toLocaleTimeString("ar-SA",{
+
+        hour:"2-digit",
+
+        minute:"2-digit"
+
+    });
+
+    document.getElementById("todayDay").textContent = day;
+
+    document.getElementById("todayDate").textContent = date;
+
+    document.getElementById("liveClock").textContent = time;
+
+}
+
+updateClock();
+
+setInterval(updateClock,1000);
