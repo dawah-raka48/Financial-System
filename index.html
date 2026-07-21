@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>نظام إدارة الصندوق</title>
+
+    <!-- Google Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+    <div class="background">
+        <span class="circle c1"></span>
+        <span class="circle c2"></span>
+        <span class="circle c3"></span>
+    </div>
+
+    <main class="login-container">
+
+        <div class="login-card">
+
+            <div class="logo">
+
+                <div class="logo-circle">
+                    <i class="fa-solid fa-wallet"></i>
+                </div>
+
+            </div>
+
+            <h1>نظام إدارة الصندوق</h1>
+
+            <p>Financial System</p>
+
+            <div class="divider"></div>
+
+            <h3>أدخل كود الدخول</h3>
+
+            <div class="pin-container">
+
+                <input class="pin" maxlength="1" inputmode="numeric">
+                <input class="pin" maxlength="1" inputmode="numeric">
+                <input class="pin" maxlength="1" inputmode="numeric">
+                <input class="pin" maxlength="1" inputmode="numeric">
+                <input class="pin" maxlength="1" inputmode="numeric">
+                <input class="pin" maxlength="1" inputmode="numeric">
+
+            </div>
+
+            <small id="loginMessage"></small>
+
+            <div class="version">
+
+                الإصدار 1.0
+
+            </div>
+
+        </div>
+
+    </main>
+
+    <script src="js/auth.js"></script>
+
+</body>
+
+</html>
