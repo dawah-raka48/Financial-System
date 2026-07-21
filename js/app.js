@@ -129,38 +129,6 @@ function saveTransaction() {
 
     STORAGE.addTransaction(transaction);
 
-    /* تحديث الرصيد */
-
-    if (payment === "cash") {
-
-        if (type === "expense") {
-
-            settings.cashBalance -= amount;
-
-        } else {
-
-            settings.cashBalance += amount;
-
-        }
-
-    }
-
-    if (payment === "bank") {
-
-        if (type === "expense") {
-
-            settings.bankBalance -= amount;
-
-        } else {
-
-            settings.bankBalance += amount;
-
-        }
-
-    }
-
-    STORAGE.saveSettings(settings);
-
     /* إعادة تحميل البيانات */
 
     settings = STORAGE.getSettings();
