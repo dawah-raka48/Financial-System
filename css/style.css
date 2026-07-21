@@ -1351,3 +1351,52 @@ background:#2563eb;
 background:#dc2626;
 
 }
+/* ==========================
+Print
+========================== */
+
+@media print{
+
+body{
+
+background:#fff;
+
+}
+
+.topbar,
+.history-filter,
+.bottom-nav,
+.history-actions{
+
+display:none !important;
+
+}
+
+.dashboard{
+
+padding:0;
+
+}
+
+.transaction-card{
+
+page-break-inside:avoid;
+
+background:#fff;
+
+border:1px solid #ddd;
+
+color:#000;
+
+margin-bottom:15px;
+
+}
+
+.transaction-body p,
+.transaction-top strong{
+
+color:#000;
+
+}
+
+}
