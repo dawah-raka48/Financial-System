@@ -1282,6 +1282,20 @@ function printReport() {
 
 }
 /* ==========================================
+   Escape HTML For Print
+========================================== */
+
+function escapePrintHTML(value) {
+
+    return String(value || "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+
+}
+/* ==========================================
    Professional Print Window
 ========================================== */
 
