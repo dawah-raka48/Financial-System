@@ -31,15 +31,17 @@
 }
 
 body{
-
     font-family:"Cairo",sans-serif;
-
     background:var(--background);
-
     color:var(--text);
+}
 
-    overflow:hidden;
-
+/* صفحات التطبيق تسمح بالتمرير */
+body.dashboard-page{
+    overflow-x:hidden;
+    overflow-y:auto;
+    min-height:100vh;
+    -webkit-overflow-scrolling:touch;
 }
 
 /* ===============================
@@ -374,8 +376,11 @@ Responsive
 ========================================== */
 
 .dashboard-page{
-    overflow:auto;
+    overflow-x:hidden !important;
+    overflow-y:auto !important;
     background:#0f172a;
+    min-height:100vh;
+    padding-bottom:90px;
 }
 
 .dashboard{
@@ -778,9 +783,7 @@ Actions
 ========================================== */
 
 .modal{
-
     position:fixed;
-
     inset:0;
 
     background:rgba(0,0,0,.55);
@@ -788,13 +791,20 @@ Actions
     display:none;
 
     justify-content:center;
-
-    align-items:center;
+    align-items:flex-start;
 
     z-index:999;
 
-    padding:20px;
+    padding:30px 20px 100px;
 
+    overflow-y:auto;
+    overflow-x:hidden;
+
+    -webkit-overflow-scrolling:touch;
+}
+
+.modal.show{
+    display:flex;
 }
 
 .modal.show{
@@ -804,9 +814,7 @@ Actions
 }
 
 .modal-card{
-
     width:100%;
-
     max-width:620px;
 
     background:#182235;
@@ -817,6 +825,13 @@ Actions
 
     border:1px solid rgba(255,255,255,.08);
 
+    margin:auto;
+
+    max-height:calc(100vh - 70px);
+
+    overflow-y:auto;
+
+    -webkit-overflow-scrolling:touch;
 }
 
 .modal-header{
