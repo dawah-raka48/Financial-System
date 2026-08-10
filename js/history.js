@@ -898,3 +898,386 @@ async function saveEditedTransaction() {
     }
 
 }
+/* ==========================================
+   Professional Print Report
+========================================== */
+
+if (printButton) {
+
+    printButton.addEventListener(
+        "click",
+        printReport
+    );
+
+}
+
+
+function printReport() {
+
+
+    /* ==========================
+       أخذ نفس الفلاتر
+    ========================== */
+
+    const selectedFromDate =
+        fromDate
+            ? fromDate.value
+            : "";
+
+
+    const selectedToDate =
+        toDate
+            ? toDate.value
+            : "";
+
+
+    const selectedType =
+        typeFilter
+            ? typeFilter.value
+            : "";
+
+
+    const selectedPayment =
+        paymentFilter
+            ? paymentFilter.value
+            : "";
+
+
+    const searchValue =
+        searchInput
+            ? searchInput.value
+                .toLowerCase()
+                .trim()
+            : "";
+
+
+    /* ==========================
+       تجهيز البيانات
+    ========================== */
+
+    let reportData =
+        transactions.filter(item => {
+
+
+            const person =
+                String(
+                    item.person || ""
+                )
+                .toLowerCase();
+
+
+            const note =
+                String(
+                    item.note || ""
+                )
+                .toLowerCase();
+
+
+            const matchesSearch =
+
+                !searchValue ||
+
+                person.includes(
+                    searchValue
+                ) ||
+
+                note.includes(
+                    searchValue
+                );
+
+
+            const matchesFromDate =
+
+                !selectedFromDate ||
+
+                String(item.date || "") >=
+                    selectedFromDate;
+
+
+            const matchesToDate =
+
+                !selectedToDate ||
+
+                String(item.date || "") <=
+                    selectedToDate;
+
+
+            const matchesType =
+
+                !selectedType ||
+
+                item.type === selectedType;
+
+
+            const matchesPayment =
+
+                !selectedPayment ||
+
+                item.payment ===
+                    selectedPayment;
+
+
+            return (
+
+                matchesSearch &&
+
+                matchesFromDate &&
+
+                matchesToDate &&
+
+                matchesType &&
+
+                matchesPayment
+
+            );
+
+        });
+
+
+    /* ==========================
+       ترتيب من الأحدث
+    ========================== */
+
+    reportData.sort((a, b) => {
+
+        return (
+            new Date(b.date) -
+            new Date(a.date)
+        );
+
+    });
+
+
+    /* ==========================
+       الإحصائيات
+    ========================== */
+
+    let cashWithdrawals = 0;
+
+    let bankWithdrawals = 0;
+
+    let cashDeposits = 0;
+
+    let bankDeposits = 0;
+
+
+    let cashWithdrawalsTotal = 0;
+
+    let bankWithdrawalsTotal = 0;
+
+    let cashDepositsTotal = 0;
+
+    let bankDepositsTotal = 0;
+
+
+    let totalExpenses = 0;
+
+    let totalIncome = 0;
+
+
+    reportData.forEach(item => {
+
+
+        const amount =
+            Number(item.amount) || 0;
+
+
+        if (
+            item.type ===
+            "expense"
+        ) {
+
+
+            totalExpenses +=
+                amount;
+
+
+            if (
+                item.payment ===
+                "cash"
+            ) {
+
+                cashWithdrawals++;
+
+                cashWithdrawalsTotal +=
+                    amount;
+
+            }
+
+
+            if (
+                item.payment ===
+                "bank"
+            ) {
+
+                bankWithdrawals++;
+
+                bankWithdrawalsTotal +=
+                    amount;
+
+            }
+
+        }
+
+
+        if (
+            item.type ===
+            "income"
+        ) {
+
+
+            totalIncome +=
+                amount;
+
+
+            if (
+                item.payment ===
+                "cash"
+            ) {
+
+                cashDeposits++;
+
+                cashDepositsTotal +=
+                    amount;
+
+            }
+
+
+            if (
+                item.payment ===
+                "bank"
+            ) {
+
+                bankDeposits++;
+
+                bankDepositsTotal +=
+                    amount;
+
+            }
+
+        }
+
+    });
+
+
+    /* ==========================
+       الفترة
+    ========================== */
+
+    let periodText =
+        "جميع الحركات";
+
+
+    if (
+        selectedFromDate &&
+        selectedToDate
+    ) {
+
+        periodText =
+            `من ${selectedFromDate} إلى ${selectedToDate}`;
+
+    } else if (
+        selectedFromDate
+    ) {
+
+        periodText =
+            `من ${selectedFromDate}`;
+
+    } else if (
+        selectedToDate
+    ) {
+
+        periodText =
+            `حتى ${selectedToDate}`;
+
+    }
+
+
+    /* ==========================
+       نوع العملية
+    ========================== */
+
+    let typeText =
+        "كل العمليات";
+
+
+    if (
+        selectedType ===
+        "expense"
+    ) {
+
+        typeText = "صرف";
+
+    }
+
+
+    if (
+        selectedType ===
+        "income"
+    ) {
+
+        typeText = "إيداع";
+
+    }
+
+
+    /* ==========================
+       طريقة الدفع
+    ========================== */
+
+    let paymentText =
+        "كل الطرق";
+
+
+    if (
+        selectedPayment ===
+        "cash"
+    ) {
+
+        paymentText = "كاش";
+
+    }
+
+
+    if (
+        selectedPayment ===
+        "bank"
+    ) {
+
+        paymentText = "بنك";
+
+    }
+
+
+    /*
+       من هنا استخدم كود تصميم
+       الطباعة الحالي الجميل الموجود
+       عندك.
+
+       لا نغير الـHTML/CSS الخاص
+       بالتقرير.
+    */
+
+
+    openPrintWindow(
+        reportData,
+        periodText,
+        typeText,
+        paymentText,
+        {
+            cashWithdrawals,
+            bankWithdrawals,
+            cashDeposits,
+            bankDeposits,
+
+            cashWithdrawalsTotal,
+            bankWithdrawalsTotal,
+            cashDepositsTotal,
+            bankDepositsTotal,
+
+            totalExpenses,
+            totalIncome
+        }
+    );
+
+}
