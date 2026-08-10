@@ -3,6 +3,13 @@
    Storage Manager
 ========================================== */
 
+/* ==========================================
+   Google Sheets API
+========================================== */
+
+const GOOGLE_SHEETS_API =
+    "https://script.google.com/macros/s/AKfycbz1jnKuWGbB9UhQMfUqXV33xQB2SWJMiLM3Jme3fO6RvHcdh1yE9b_8N6q0XwjISP4h/exec";
+
 const STORAGE = {
 
     SETTINGS_KEY: "financial_settings",
