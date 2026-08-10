@@ -1574,3 +1574,50 @@ color:#000;
     }
 
 }
+/* ==========================
+   Logout Button
+========================== */
+
+.logout-btn{
+
+    width:100%;
+
+    height:56px;
+
+    margin-top:14px;
+
+    border:none;
+
+    border-radius:18px;
+
+    background:#dc2626;
+
+    color:#fff;
+
+    font-family:Cairo,sans-serif;
+
+    font-size:17px;
+
+    font-weight:700;
+
+    cursor:pointer;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    gap:10px;
+
+    transition:.25s;
+
+}
+
+.logout-btn:hover{
+
+    background:#b91c1c;
+
+    transform:translateY(-2px);
+
+}
