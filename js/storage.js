@@ -76,6 +76,73 @@ const STORAGE = {
 
     },
 
+ /* ==========================================
+   مزامنة العمليات من Google Sheets
+========================================== */
+
+async syncFromGoogle() {
+
+    try {
+
+        const response =
+            await fetch(
+                GOOGLE_SHEETS_API +
+                "?action=getTransactions"
+            );
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                "تعذر الاتصال بخدمة Google Sheets"
+            );
+
+        }
+
+
+        const result =
+            await response.json();
+
+
+        if (
+            !result.success ||
+            !Array.isArray(result.data)
+        ) {
+
+            throw new Error(
+                result.message ||
+                "البيانات المستلمة غير صحيحة"
+            );
+
+        }
+
+
+        /* ==========================
+           حفظ نسخة محلية
+        ========================== */
+
+        this.saveTransactions(
+            result.data
+        );
+
+
+        return result.data;
+
+
+    } catch (error) {
+
+        console.error(
+            "Google Sheets Error:",
+            error
+        );
+
+
+        throw error;
+
+    }
+
+},  
+
     saveTransactions(transactions) {
 
         localStorage.setItem(
