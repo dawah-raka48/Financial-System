@@ -85,8 +85,8 @@ logoutButton.addEventListener("click", () => {
 
     if (!confirmLogout) return;
 
-    localStorage.removeItem("loggedIn");
+    localStorage.removeItem("financial_logged");
 
-    location.href = "index.html";
+    window.location.href = "index.html";
 
 });
