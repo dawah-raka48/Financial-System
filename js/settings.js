@@ -71,3 +71,22 @@ if(settings.darkMode){
     document.body.classList.remove("dark");
 
 }
+/* ==========================================
+   Logout
+========================================== */
+
+const logoutButton =
+document.getElementById("logoutButton");
+
+logoutButton.addEventListener("click", () => {
+
+    const confirmLogout =
+        confirm("هل تريد تسجيل الخروج؟");
+
+    if (!confirmLogout) return;
+
+    localStorage.removeItem("loggedIn");
+
+    location.href = "index.html";
+
+});
