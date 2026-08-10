@@ -391,16 +391,26 @@ function deleteTransaction(id) {
     }
 
 
-    STORAGE.deleteTransaction(id);
+STORAGE.deleteTransaction(id)
+    .then(() => {
 
+        transactions =
+            STORAGE.getTransactions();
 
-    transactions =
-        STORAGE.getTransactions();
+        applyFilters();
 
+        alert("تم حذف الحركة بنجاح");
 
-    applyFilters();
+    })
+    .catch(error => {
 
-}
+        console.error(error);
+
+        alert(
+            "تعذر حذف الحركة من Google Sheets"
+        );
+
+    });
 /* ==========================================
    Financial System
    History Page
@@ -574,33 +584,30 @@ updateTransactionButton.addEventListener(
             ).value.trim();
 
 
-        /* ==========================
-           الحفظ
-        ========================== */
+STORAGE.updateTransaction(
+    transactions[index]
+)
+.then(() => {
 
-        STORAGE.saveTransactions(
-            transactions
-        );
+    editModal.classList.remove("show");
 
+    applyFilters();
 
-        /* ==========================
-           إغلاق النافذة
-        ========================== */
+    currentId = null;
 
-        editModal.classList.remove("show");
+    alert("تم تعديل الحركة بنجاح");
 
+})
+.catch(error => {
 
-        /* ==========================
-           إعادة عرض السجل
-        ========================== */
+    console.error(error);
 
-        applyFilters();
+    alert(
+        "تعذر تعديل الحركة في Google Sheets"
+    );
 
-
-        currentId = null;
-
-    }
-);
+});
+       
 /* ==========================================
    Financial System
    Professional Print
