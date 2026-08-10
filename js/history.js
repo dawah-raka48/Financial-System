@@ -1281,3 +1281,1090 @@ function printReport() {
     );
 
 }
+/* ==========================================
+   Professional Print Window
+========================================== */
+
+function openPrintWindow(
+    reportData,
+    periodText,
+    typeText,
+    paymentText,
+    stats
+) {
+
+    /* ==========================
+       فتح نافذة الطباعة
+    ========================== */
+
+    const printWindow =
+        window.open(
+            "",
+            "_blank",
+            "width=1200,height=900"
+        );
+
+
+    if (!printWindow) {
+
+        alert(
+            "تعذر فتح نافذة الطباعة. يرجى السماح بالنوافذ المنبثقة."
+        );
+
+        return;
+
+    }
+
+
+    /* ==========================
+       تاريخ الطباعة
+    ========================== */
+
+    const now =
+        new Date();
+
+
+    const printDate =
+        now.toLocaleDateString(
+            "ar-SA",
+            {
+                year: "numeric",
+                month: "2-digit",
+                day: "2-digit"
+            }
+        );
+
+
+    /* ==========================
+       تنسيق الأرقام
+    ========================== */
+
+    function money(value) {
+
+        return Number(value || 0)
+            .toLocaleString(
+                "ar-SA"
+            ) + " ريال";
+
+    }
+
+
+    /* ==========================
+       جدول العمليات
+    ========================== */
+
+    let rows = "";
+
+
+    if (
+        !reportData ||
+        reportData.length === 0
+    ) {
+
+        rows = `
+
+            <tr>
+
+                <td
+                    colspan="7"
+                    class="empty"
+                >
+
+                    لا توجد عمليات ضمن الفترة المحددة
+
+                </td>
+
+            </tr>
+
+        `;
+
+    } else {
+
+        reportData.forEach(
+            (item, index) => {
+
+
+                const type =
+                    item.type === "expense"
+                        ? "صرف"
+                        : "إيداع";
+
+
+                const payment =
+                    item.payment === "cash"
+                        ? "كاش"
+                        : "بنك";
+
+
+                const amount =
+                    money(
+                        item.amount
+                    );
+
+
+                rows += `
+
+                    <tr>
+
+                        <td>
+                            ${index + 1}
+                        </td>
+
+                        <td>
+                            ${item.date || "—"}
+                        </td>
+
+                        <td>
+
+                            <span class="type">
+
+                                ${type}
+
+                            </span>
+
+                        </td>
+
+                        <td>
+                            ${payment}
+                        </td>
+
+                        <td>
+                            ${escapePrintHTML(
+                                item.person || "—"
+                            )}
+                        </td>
+
+                        <td class="note">
+
+                            ${escapePrintHTML(
+                                item.note || "—"
+                            )}
+
+                        </td>
+
+                        <td class="amount">
+
+                            ${amount}
+
+                        </td>
+
+                    </tr>
+
+                `;
+
+            }
+        );
+
+    }
+
+
+    /* ==========================
+       HTML التقرير
+    ========================== */
+
+    const html = `
+
+<!DOCTYPE html>
+
+<html
+    lang="ar"
+    dir="rtl"
+>
+
+<head>
+
+<meta charset="UTF-8">
+
+<title>
+    كشف الحركات المالية
+</title>
+
+
+<style>
+
+/* ==========================================
+   Page
+========================================== */
+
+@page {
+
+    size: A4 landscape;
+
+    margin: 10mm;
+
+}
+
+
+* {
+
+    box-sizing: border-box;
+
+}
+
+
+html,
+body {
+
+    margin: 0;
+
+    padding: 0;
+
+}
+
+
+body {
+
+    font-family:
+        "Tahoma",
+        "Arial",
+        sans-serif;
+
+    color: #111;
+
+    background: white;
+
+    direction: rtl;
+
+    font-size: 10px;
+
+}
+
+
+/* ==========================================
+   Header
+========================================== */
+
+.header {
+
+    width: 100%;
+
+    background: #287db7;
+
+    color: white;
+
+    text-align: center;
+
+    padding: 12px 15px;
+
+    margin-bottom: 10px;
+
+}
+
+
+.header h1 {
+
+    margin: 0 0 5px;
+
+    font-size: 22px;
+
+    font-weight: 800;
+
+}
+
+
+.header h2 {
+
+    margin: 0;
+
+    font-size: 12px;
+
+    font-weight: 400;
+
+}
+
+
+/* ==========================================
+   Report Information
+========================================== */
+
+.report-info {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    margin-bottom: 8px;
+
+    font-size: 9px;
+
+}
+
+
+.report-info strong {
+
+    font-weight: 700;
+
+}
+
+
+/* ==========================================
+   Filters
+========================================== */
+
+.filters {
+
+    border: 1px solid #ddd;
+
+    padding: 5px 8px;
+
+    margin-bottom: 8px;
+
+    display: flex;
+
+    gap: 20px;
+
+    justify-content: flex-start;
+
+    background: #fafafa;
+
+}
+
+
+.filters span {
+
+    font-weight: 600;
+
+}
+
+
+/* ==========================================
+   Table
+========================================== */
+
+table {
+
+    width: 100%;
+
+    border-collapse: collapse;
+
+    table-layout: fixed;
+
+}
+
+
+thead {
+
+    background: #f1f1f1;
+
+}
+
+
+th {
+
+    border: 1px solid #cfcfcf;
+
+    padding: 6px 4px;
+
+    font-size: 9px;
+
+    font-weight: 800;
+
+}
+
+
+td {
+
+    border: 1px solid #d8d8d8;
+
+    padding: 5px 4px;
+
+    height: 27px;
+
+    font-size: 8.5px;
+
+    vertical-align: middle;
+
+}
+
+
+tbody tr:nth-child(even) {
+
+    background: #fafafa;
+
+}
+
+
+/* الأعمدة */
+
+th:nth-child(1),
+td:nth-child(1) {
+
+    width: 4%;
+
+    text-align: center;
+
+}
+
+
+th:nth-child(2),
+td:nth-child(2) {
+
+    width: 11%;
+
+    text-align: center;
+
+}
+
+
+th:nth-child(3),
+td:nth-child(3) {
+
+    width: 10%;
+
+    text-align: center;
+
+}
+
+
+th:nth-child(4),
+td:nth-child(4) {
+
+    width: 10%;
+
+    text-align: center;
+
+}
+
+
+th:nth-child(5),
+td:nth-child(5) {
+
+    width: 17%;
+
+}
+
+
+th:nth-child(6),
+td:nth-child(6) {
+
+    width: 32%;
+
+}
+
+
+th:nth-child(7),
+td:nth-child(7) {
+
+    width: 16%;
+
+    text-align: center;
+
+}
+
+
+.note {
+
+    line-height: 1.4;
+
+}
+
+
+.amount {
+
+    font-weight: 800;
+
+    white-space: nowrap;
+
+}
+
+
+.type {
+
+    font-weight: 700;
+
+}
+
+
+.empty {
+
+    text-align: center;
+
+    padding: 20px;
+
+}
+
+
+/* ==========================================
+   Summary Title
+========================================== */
+
+.summary-title {
+
+    margin-top: 10px;
+
+    margin-bottom: 5px;
+
+    font-size: 12px;
+
+    font-weight: 800;
+
+}
+
+
+/* ==========================================
+   Four Operation Boxes
+========================================== */
+
+.summary {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, 1fr);
+
+    width: 100%;
+
+    border: 1px solid #d5d5d5;
+
+}
+
+
+.summary-box {
+
+    min-height: 55px;
+
+    text-align: center;
+
+    padding: 6px;
+
+    border-left:
+        1px solid #d5d5d5;
+
+}
+
+
+.summary-box:last-child {
+
+    border-left: none;
+
+}
+
+
+.summary-box .label {
+
+    display: block;
+
+    font-size: 8px;
+
+    color: #555;
+
+    margin-bottom: 3px;
+
+}
+
+
+.summary-box .number {
+
+    display: block;
+
+    font-size: 15px;
+
+    font-weight: 800;
+
+    line-height: 1.2;
+
+}
+
+
+.summary-box .amount {
+
+    display: block;
+
+    font-size: 8px;
+
+    margin-top: 2px;
+
+    font-weight: 600;
+
+}
+
+
+/* ==========================================
+   Totals
+========================================== */
+
+.totals {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    width: 100%;
+
+    margin-top: 9px;
+
+    border: 1px solid #d5d5d5;
+
+}
+
+
+.total-box {
+
+    min-height: 48px;
+
+    padding: 6px;
+
+    text-align: center;
+
+    border-left:
+        1px solid #d5d5d5;
+
+}
+
+
+.total-box:last-child {
+
+    border-left: none;
+
+}
+
+
+.total-label {
+
+    font-size: 8px;
+
+    color: #555;
+
+    margin-bottom: 4px;
+
+}
+
+
+.total-value {
+
+    font-size: 13px;
+
+    font-weight: 800;
+
+}
+
+
+/* ==========================================
+   Footer
+========================================== */
+
+.footer {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    margin-top: 10px;
+
+    padding-top: 6px;
+
+    border-top: 1px solid #ddd;
+
+    font-size: 8px;
+
+    color: #777;
+
+}
+
+
+/* ==========================================
+   Print
+========================================== */
+
+@media print {
+
+    body {
+
+        -webkit-print-color-adjust:
+            exact;
+
+        print-color-adjust:
+            exact;
+
+    }
+
+
+    .header {
+
+        background: #287db7 !important;
+
+        color: white !important;
+
+    }
+
+
+    .summary-box,
+    .total-box,
+    tr,
+    thead {
+
+        break-inside: avoid;
+
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<!-- ==========================================
+     Header
+========================================== -->
+
+<div class="header">
+
+    <h1>
+        نظام إدارة الصندوق
+    </h1>
+
+    <h2>
+        كشف الحركات المالية — جميع الحركات
+    </h2>
+
+</div>
+
+
+<!-- ==========================================
+     Report Info
+========================================== -->
+
+<div class="report-info">
+
+    <div>
+
+        <strong>
+            الفترة:
+        </strong>
+
+        ${escapePrintHTML(
+            periodText
+        )}
+
+    </div>
+
+
+    <div>
+
+        <strong>
+            تاريخ التقرير:
+        </strong>
+
+        ${printDate}
+
+    </div>
+
+</div>
+
+
+<!-- ==========================================
+     Applied Filters
+========================================== -->
+
+<div class="filters">
+
+    <span>
+
+        نوع العملية:
+        ${escapePrintHTML(
+            typeText
+        )}
+
+    </span>
+
+
+    <span>
+
+        طريقة الدفع:
+        ${escapePrintHTML(
+            paymentText
+        )}
+
+    </span>
+
+</div>
+
+
+<!-- ==========================================
+     Operations Table
+========================================== -->
+
+<table>
+
+    <thead>
+
+        <tr>
+
+            <th>
+                #
+            </th>
+
+            <th>
+                التاريخ
+            </th>
+
+            <th>
+                نوع الحركة
+            </th>
+
+            <th>
+                طريقة الدفع
+            </th>
+
+            <th>
+                المستفيد
+            </th>
+
+            <th>
+                البيان
+            </th>
+
+            <th>
+                المبلغ
+            </th>
+
+        </tr>
+
+    </thead>
+
+
+    <tbody>
+
+        ${rows}
+
+    </tbody>
+
+</table>
+
+
+<!-- ==========================================
+     Summary
+========================================== -->
+
+<div class="summary-title">
+
+    ملخص عدد العمليات
+
+</div>
+
+
+<div class="summary">
+
+
+    <div class="summary-box">
+
+        <span class="label">
+            سحب كاش
+        </span>
+
+        <span class="number">
+            ${stats.cashWithdrawals}
+        </span>
+
+        <span class="amount">
+            ${money(
+                stats.cashWithdrawalsTotal
+            )}
+        </span>
+
+    </div>
+
+
+    <div class="summary-box">
+
+        <span class="label">
+            سحب بنكي
+        </span>
+
+        <span class="number">
+            ${stats.bankWithdrawals}
+        </span>
+
+        <span class="amount">
+            ${money(
+                stats.bankWithdrawalsTotal
+            )}
+        </span>
+
+    </div>
+
+
+    <div class="summary-box">
+
+        <span class="label">
+            إيداع كاش
+        </span>
+
+        <span class="number">
+            ${stats.cashDeposits}
+        </span>
+
+        <span class="amount">
+            ${money(
+                stats.cashDepositsTotal
+            )}
+        </span>
+
+    </div>
+
+
+    <div class="summary-box">
+
+        <span class="label">
+            إيداع بنكي
+        </span>
+
+        <span class="number">
+            ${stats.bankDeposits}
+        </span>
+
+        <span class="amount">
+            ${money(
+                stats.bankDepositsTotal
+            )}
+        </span>
+
+    </div>
+
+
+</div>
+
+
+<!-- ==========================================
+     Totals
+========================================== -->
+
+<div class="totals">
+
+
+    <div class="total-box">
+
+        <div class="total-label">
+            إجمالي المصروفات
+        </div>
+
+        <div class="total-value">
+            ${money(
+                stats.totalExpenses
+            )}
+        </div>
+
+    </div>
+
+
+    <div class="total-box">
+
+        <div class="total-label">
+            إجمالي الإيداعات
+        </div>
+
+        <div class="total-value">
+            ${money(
+                stats.totalIncome
+            )}
+        </div>
+
+    </div>
+
+
+    <div class="total-box">
+
+        <div class="total-label">
+            إجمالي العمليات
+        </div>
+
+        <div class="total-value">
+            ${reportData.length}
+            عملية
+        </div>
+
+    </div>
+
+
+</div>
+
+
+<!-- ==========================================
+     Footer
+========================================== -->
+
+<div class="footer">
+
+    <span>
+        نظام إدارة الصندوق
+    </span>
+
+    <span>
+        تقرير مالي
+    </span>
+
+</div>
+
+
+<script>
+
+window.onload = function() {
+
+    setTimeout(
+        function() {
+
+            window.print();
+
+        },
+        400
+    );
+
+};
+
+
+function escapePrintHTML(value) {
+
+    return String(value || "")
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+        .replace(
+            /</g,
+            "&lt;"
+        )
+        .replace(
+            />/g,
+            "&gt;"
+        )
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+        .replace(
+            /'/g,
+            "&#039;"
+        );
+
+}
+
+</script>
+
+
+</body>
+
+</html>
+
+`;
+
+
+    /* ==========================
+       كتابة التقرير
+    ========================== */
+
+    printWindow.document.open();
+
+    printWindow.document.write(
+        html
+    );
+
+    printWindow.document.close();
+
+}
