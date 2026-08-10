@@ -3,92 +3,389 @@
    Authentication
 ========================================== */
 
-const LOGIN_CODE =
-localStorage.getItem("financial_code") || "123456";
 
-const inputs = document.querySelectorAll(".pin");
-const message = document.getElementById("loginMessage");
+/* ==========================================
+   Elements
+========================================== */
 
-/* إذا كان المستخدم مسجل دخول من قبل */
+const inputs =
+    document.querySelectorAll(".pin");
 
-if (localStorage.getItem("financial_logged") === "true") {
-    window.location.href = "dashboard.html";
-}
+const message =
+    document.getElementById(
+        "loginMessage"
+    );
 
-/* التركيز على أول خانة */
 
-inputs[0].focus();
+/* ==========================================
+   Login Code
+========================================== */
 
-/* التنقل بين الخانات */
+function getLoginCode() {
 
-inputs.forEach((input, index) => {
+    let savedCode =
+        localStorage.getItem(
+            "financial_code"
+        );
 
-    input.addEventListener("input", () => {
 
-        input.value = input.value.replace(/[^0-9]/g, "");
+    /* ==========================
+       Default Code
+    ========================== */
 
-        if (input.value && index < inputs.length - 1) {
-            inputs[index + 1].focus();
-        }
+    if (!savedCode) {
 
-        checkLogin();
+        savedCode = "258963";
 
-    });
-
-    input.addEventListener("keydown", (e) => {
-
-        if (e.key === "Backspace" && input.value === "" && index > 0) {
-            inputs[index - 1].focus();
-        }
-
-    });
-
-});
-
-/* فحص الكود */
-
-function checkLogin() {
-
-    let code = "";
-
-    inputs.forEach(input => {
-        code += input.value;
-    });
-
-    if (code.length !== 6) return;
-
-    if (code === LOGIN_CODE) {
-
-        localStorage.setItem("financial_logged", "true");
-
-        message.style.color = "#22c55e";
-        message.textContent = "جاري تسجيل الدخول...";
-
-        setTimeout(() => {
-
-            window.location.href = "dashboard.html";
-
-        }, 400);
-
-    } else {
-
-        message.style.color = "#ef4444";
-        message.textContent = "كود الدخول غير صحيح";
-
-        document.querySelector(".login-card").classList.add("shake");
-
-        setTimeout(() => {
-
-            inputs.forEach(input => input.value = "");
-
-            inputs[0].focus();
-
-            message.textContent = "";
-
-            document.querySelector(".login-card").classList.remove("shake");
-
-        }, 700);
+        localStorage.setItem(
+            "financial_code",
+            savedCode
+        );
 
     }
 
+
+    /* ==========================
+       Fix Old Default Code
+    ========================== */
+
+    if (savedCode === "123456") {
+
+        savedCode = "258963";
+
+        localStorage.setItem(
+            "financial_code",
+            savedCode
+        );
+
+    }
+
+
+    return savedCode;
+
 }
+
+
+/* ==========================================
+   Already Logged In
+========================================== */
+
+if (
+    localStorage.getItem(
+        "financial_logged"
+    ) === "true"
+) {
+
+    window.location.href =
+        "dashboard.html";
+
+}
+
+
+/* ==========================================
+   Focus First Input
+========================================== */
+
+if (inputs.length > 0) {
+
+    inputs[0].focus();
+
+}
+
+
+/* ==========================================
+   Input Handling
+========================================== */
+
+inputs.forEach(
+    (input, index) => {
+
+
+        /* ==========================
+           Input
+        ========================== */
+
+        input.addEventListener(
+            "input",
+            () => {
+
+
+                /* أرقام فقط */
+
+                input.value =
+                    input.value.replace(
+                        /[^0-9]/g,
+                        ""
+                    );
+
+
+                /* الانتقال للخانة التالية */
+
+                if (
+                    input.value &&
+                    index <
+                        inputs.length - 1
+                ) {
+
+                    inputs[
+                        index + 1
+                    ].focus();
+
+                }
+
+
+                /* فحص الكود */
+
+                checkLogin();
+
+            }
+        );
+
+
+        /* ==========================
+           Backspace
+        ========================== */
+
+        input.addEventListener(
+            "keydown",
+            (e) => {
+
+
+                if (
+                    e.key ===
+                        "Backspace" &&
+                    input.value === "" &&
+                    index > 0
+                ) {
+
+                    inputs[
+                        index - 1
+                    ].focus();
+
+                }
+
+            }
+        );
+
+    }
+);
+
+
+/* ==========================================
+   Check Login
+========================================== */
+
+function checkLogin() {
+
+
+    let code = "";
+
+
+    /* تجميع الأرقام */
+
+    inputs.forEach(
+        input => {
+
+            code +=
+                input.value;
+
+        }
+    );
+
+
+    /* ==========================
+       الكود غير مكتمل
+    ========================== */
+
+    if (
+        code.length !== 6
+    ) {
+
+        return;
+
+    }
+
+
+    /* ==========================
+       الكود الصحيح
+    ========================== */
+
+    const correctCode =
+        getLoginCode();
+
+
+    if (
+        code === correctCode
+    ) {
+
+
+        /* تسجيل الدخول */
+
+        localStorage.setItem(
+            "financial_logged",
+            "true"
+        );
+
+
+        /* رسالة النجاح */
+
+        if (message) {
+
+            message.style.color =
+                "#22c55e";
+
+            message.textContent =
+                "جاري تسجيل الدخول...";
+
+        }
+
+
+        /* الانتقال للرئيسية */
+
+        setTimeout(
+            () => {
+
+                window.location.href =
+                    "dashboard.html";
+
+            },
+            400
+        );
+
+
+        return;
+
+    }
+
+
+    /* ==========================
+       الكود غير صحيح
+    ========================== */
+
+    if (message) {
+
+        message.style.color =
+            "#ef4444";
+
+        message.textContent =
+            "كود الدخول غير صحيح";
+
+    }
+
+
+    /* إضافة الاهتزاز */
+
+    const loginCard =
+        document.querySelector(
+            ".login-card"
+        );
+
+
+    if (loginCard) {
+
+        loginCard.classList.add(
+            "shake"
+        );
+
+    }
+
+
+    /* ==========================
+       إعادة المحاولة
+    ========================== */
+
+    setTimeout(
+        () => {
+
+
+            inputs.forEach(
+                input => {
+
+                    input.value = "";
+
+                }
+            );
+
+
+            if (
+                inputs.length > 0
+            ) {
+
+                inputs[0].focus();
+
+            }
+
+
+            if (message) {
+
+                message.textContent =
+                    "";
+
+            }
+
+
+            if (loginCard) {
+
+                loginCard.classList.remove(
+                    "shake"
+                );
+
+            }
+
+        },
+        700
+    );
+
+}
+
+
+/* ==========================================
+   Paste 6-Digit Code
+========================================== */
+
+document.addEventListener(
+    "paste",
+    (e) => {
+
+
+        const pasted =
+            (
+                e.clipboardData ||
+                window.clipboardData
+            )
+            .getData("text")
+            .replace(
+                /[^0-9]/g,
+                ""
+            );
+
+
+        /* لازم يكون 6 أرقام */
+
+        if (
+            pasted.length !== 6
+        ) {
+
+            return;
+
+        }
+
+
+        /* توزيع الأرقام */
+
+        inputs.forEach(
+            (input, index) => {
+
+                input.value =
+                    pasted[index] || "";
+
+            }
+        );
+
+
+        /* فحص الكود */
+
+        checkLogin();
+
+    }
+);
