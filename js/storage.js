@@ -155,17 +155,135 @@ async syncFromGoogle() {
 
     },
 
-    addTransaction(transaction) {
+/* ==========================================
+   إضافة حركة إلى Google Sheets
+========================================== */
 
-        const transactions = this.getTransactions();
+async addTransaction(transaction) {
 
-        transaction.id = Date.now();
+    try {
 
-        transactions.unshift(transaction);
+        /* ==========================
+           تجهيز البيانات
+        ========================== */
 
-        this.saveTransactions(transactions);
+        const formData =
+            new URLSearchParams();
 
-    },
+        formData.append(
+            "action",
+            "addTransaction"
+        );
+
+        formData.append(
+            "date",
+            transaction.date || ""
+        );
+
+        formData.append(
+            "type",
+            transaction.type || ""
+        );
+
+        formData.append(
+            "payment",
+            transaction.payment || ""
+        );
+
+        formData.append(
+            "amount",
+            Number(transaction.amount) || 0
+        );
+
+        formData.append(
+            "person",
+            transaction.person || ""
+        );
+
+        formData.append(
+            "note",
+            transaction.note || ""
+        );
+
+
+        /* ==========================
+           إرسال إلى Google Sheets
+        ========================== */
+
+        const response =
+            await fetch(
+                GOOGLE_SHEETS_API,
+                {
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type":
+                            "application/x-www-form-urlencoded"
+                    },
+
+                    body:
+                        formData.toString()
+                }
+            );
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                "فشل الاتصال بـ Google Sheets"
+            );
+
+        }
+
+
+        const result =
+            await response.json();
+
+
+        if (!result.success) {
+
+            throw new Error(
+                result.message ||
+                "تعذر حفظ الحركة"
+            );
+
+        }
+
+
+        /* ==========================
+           تحديث البيانات المحلية
+        ========================== */
+
+        const transactions =
+            this.getTransactions();
+
+
+        transactions.unshift(
+            result.data
+        );
+
+
+        this.saveTransactions(
+            transactions
+        );
+
+
+        return result.data;
+
+
+    } catch (error) {
+
+        console.error(
+            "Add Transaction Error:",
+            error
+        );
+
+
+        throw error;
+
+    }
+
+},
 
    deleteTransaction(id) {
 
