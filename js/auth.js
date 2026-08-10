@@ -35,7 +35,7 @@ function getLoginCode() {
 
     if (!savedCode) {
 
-        savedCode = "258963";
+        savedCode = "111555";
 
         localStorage.setItem(
             "financial_code",
@@ -51,7 +51,7 @@ function getLoginCode() {
 
     if (savedCode === "123456") {
 
-        savedCode = "258963";
+        savedCode = "111555";
 
         localStorage.setItem(
             "financial_code",
