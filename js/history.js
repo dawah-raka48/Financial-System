@@ -769,19 +769,21 @@ td:nth-child(7) {
 
     grid-template-columns: repeat(4, 1fr);
 
+    width: 100%;
+
     border: 1px solid #d5d5d5;
 
 }
 
 .summary-box {
 
-    min-height: 55px;
-
-    border-left: 1px solid #d5d5d5;
+    min-height: 65px;
 
     text-align: center;
 
-    padding: 7px;
+    padding: 8px;
+
+    border-left: 1px solid #d5d5d5;
 
 }
 
@@ -799,9 +801,10 @@ td:nth-child(7) {
 
     color: #555;
 
-    margin-bottom: 6px;
+    margin-bottom: 5px;
 
 }
+
 .summary-box .count {
 
     display: block;
@@ -825,16 +828,6 @@ td:nth-child(7) {
     color: #333;
 
 }
-.summary-box .number {
-
-    display: block;
-
-    font-size: 17px;
-
-    font-weight: 700;
-
-}
-
 /* ==========================
    Totals
 ========================== */
