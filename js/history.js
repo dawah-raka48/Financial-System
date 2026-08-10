@@ -321,54 +321,68 @@ function printReport() {
        الإحصائيات
     ========================== */
 
-    let cashWithdrawals = 0;
-    let bankWithdrawals = 0;
+let cashWithdrawals = 0;
+let bankWithdrawals = 0;
 
-    let cashDeposits = 0;
-    let bankDeposits = 0;
+let cashDeposits = 0;
+let bankDeposits = 0;
 
-    let totalExpenses = 0;
-    let totalIncome = 0;
+let cashWithdrawalsTotal = 0;
+let bankWithdrawalsTotal = 0;
+
+let cashDepositsTotal = 0;
+let bankDepositsTotal = 0;
+
+let totalExpenses = 0;
+let totalIncome = 0;
 
     reportData.forEach(item => {
 
         const amount = Number(item.amount) || 0;
 
-        if (item.type === "expense") {
+if (item.type === "expense") {
 
-            totalExpenses += amount;
+    totalExpenses += amount;
 
-            if (item.payment === "cash") {
+    if (item.payment === "cash") {
 
-                cashWithdrawals++;
+        cashWithdrawals++;
 
-            }
+        cashWithdrawalsTotal += amount;
 
-            if (item.payment === "bank") {
+    }
 
-                bankWithdrawals++;
+    if (item.payment === "bank") {
 
-            }
+        bankWithdrawals++;
 
-        }
+        bankWithdrawalsTotal += amount;
 
-        if (item.type === "income") {
+    }
 
-            totalIncome += amount;
+}
 
-            if (item.payment === "cash") {
+if (item.type === "income") {
 
-                cashDeposits++;
+    totalIncome += amount;
 
-            }
+    if (item.payment === "cash") {
 
-            if (item.payment === "bank") {
+        cashDeposits++;
 
-                bankDeposits++;
+        cashDepositsTotal += amount;
 
-            }
+    }
 
-        }
+    if (item.payment === "bank") {
+
+        bankDeposits++;
+
+        bankDepositsTotal += amount;
+
+    }
+
+}
 
     });
 
@@ -953,19 +967,88 @@ td:nth-child(7) {
 
     </div>
 
-    <div class="summary">
+<div class="summary">
 
-        <div class="summary-box">
+    <div class="summary-box">
 
-            <span class="label">
-                سحب بنكي
-            </span>
+        <span class="label">
+            سحب بنكي
+        </span>
 
-            <span class="number">
-                ${bankWithdrawals}
-            </span>
+        <strong class="count">
+            ${bankWithdrawals} عملية
+        </strong>
 
-        </div>
+        <span class="summary-amount">
+            ${bankWithdrawalsTotal.toLocaleString("ar-SA", {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+            })} ريال
+        </span>
+
+    </div>
+
+
+    <div class="summary-box">
+
+        <span class="label">
+            سحب كاش
+        </span>
+
+        <strong class="count">
+            ${cashWithdrawals} عملية
+        </strong>
+
+        <span class="summary-amount">
+            ${cashWithdrawalsTotal.toLocaleString("ar-SA", {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+            })} ريال
+        </span>
+
+    </div>
+
+
+    <div class="summary-box">
+
+        <span class="label">
+            إيداع بنكي
+        </span>
+
+        <strong class="count">
+            ${bankDeposits} عملية
+        </strong>
+
+        <span class="summary-amount">
+            ${bankDepositsTotal.toLocaleString("ar-SA", {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+            })} ريال
+        </span>
+
+    </div>
+
+
+    <div class="summary-box">
+
+        <span class="label">
+            إيداع كاش
+        </span>
+
+        <strong class="count">
+            ${cashDeposits} عملية
+        </strong>
+
+        <span class="summary-amount">
+            ${cashDepositsTotal.toLocaleString("ar-SA", {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+            })} ريال
+        </span>
+
+    </div>
+
+</div>
 
         <div class="summary-box">
 
