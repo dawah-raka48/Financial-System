@@ -15,8 +15,11 @@ const historyContainer =
 const searchInput =
     document.getElementById("searchInput");
 
-const monthFilter =
-    document.getElementById("monthFilter");
+const fromDate =
+    document.getElementById("fromDate");
+
+const toDate =
+    document.getElementById("toDate");
 
 
 /* ==========================================
@@ -191,12 +194,18 @@ searchInput.addEventListener("input", () => {
    Month
 ========================================== */
 
-monthFilter.addEventListener("change", () => {
+fromDate.addEventListener("change", () => {
 
     applyFilters();
 
 });
 
+
+toDate.addEventListener("change", () => {
+
+    applyFilters();
+
+});
 
 /* ==========================================
    Transaction Type
@@ -240,8 +249,11 @@ function applyFilters() {
             .trim();
 
 
-    const selectedMonth =
-        monthFilter.value;
+    const selectedFromDate =
+    fromDate.value;
+
+const selectedToDate =
+    toDate.value;
 
 
     const selectedType =
@@ -284,12 +296,14 @@ function applyFilters() {
                الشهر
             ========================== */
 
-            const matchesMonth =
-                !selectedMonth ||
-                item.date.startsWith(
-                    selectedMonth
-                );
+            const matchesFromDate =
+    !selectedFromDate ||
+    item.date >= selectedFromDate;
 
+
+const matchesToDate =
+    !selectedToDate ||
+    item.date <= selectedToDate;
 
             /* ==========================
                نوع العملية
@@ -310,11 +324,12 @@ function applyFilters() {
 
 
             return (
-                matchesSearch &&
-                matchesMonth &&
-                matchesType &&
-                matchesPayment
-            );
+    matchesSearch &&
+    matchesFromDate &&
+    matchesToDate &&
+    matchesType &&
+    matchesPayment
+);
 
         });
 
