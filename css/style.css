@@ -1621,3 +1621,60 @@ color:#000;
     transform:translateY(-2px);
 
 }
+/* ==========================================
+   Print Report Button
+========================================== */
+
+.print-btn{
+
+    width:100%;
+
+    min-height:54px;
+
+    border:none;
+
+    border-radius:16px;
+
+    background:#2563eb;
+
+    color:#fff;
+
+    font-family:Cairo,sans-serif;
+
+    font-size:16px;
+
+    font-weight:700;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    gap:10px;
+
+    cursor:pointer;
+
+    transition:.2s;
+
+}
+
+.print-btn i{
+
+    font-size:17px;
+
+}
+
+.print-btn:hover{
+
+    background:#1d4ed8;
+
+    transform:translateY(-1px);
+
+}
+
+.print-btn:active{
+
+    transform:scale(.98);
+
+}
