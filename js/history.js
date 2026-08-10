@@ -606,8 +606,11 @@ function printReport() {
             .trim();
 
 
-    const selectedMonth =
-        monthFilter.value;
+    const selectedFromDate =
+    fromDate.value;
+
+const selectedToDate =
+    toDate.value;
 
 
     const selectedType =
@@ -646,11 +649,14 @@ function printReport() {
                 note.includes(searchValue);
 
 
-            const matchesMonth =
-                !selectedMonth ||
-                item.date.startsWith(
-                    selectedMonth
-                );
+            const matchesFromDate =
+    !selectedFromDate ||
+    item.date >= selectedFromDate;
+
+
+const matchesToDate =
+    !selectedToDate ||
+    item.date <= selectedToDate;
 
 
             const matchesType =
@@ -664,11 +670,12 @@ function printReport() {
 
 
             return (
-                matchesSearch &&
-                matchesMonth &&
-                matchesType &&
-                matchesPayment
-            );
+    matchesSearch &&
+    matchesFromDate &&
+    matchesToDate &&
+    matchesType &&
+    matchesPayment
+);
 
         });
 
@@ -778,50 +785,29 @@ function printReport() {
     });
 
 
-    /* ==========================
-       اسم الفترة
-    ========================== */
+/* ==========================
+   اسم الفترة
+========================== */
 
-    let periodText =
-        "جميع الحركات";
-
-
-    if (selectedMonth) {
+let periodText = "جميع الحركات";
 
 
-        const parts =
-            selectedMonth.split("-");
+if (selectedFromDate && selectedToDate) {
 
+    periodText =
+        `من ${selectedFromDate} إلى ${selectedToDate}`;
 
-        const year =
-            Number(parts[0]);
+} else if (selectedFromDate) {
 
+    periodText =
+        `من ${selectedFromDate}`;
 
-        const month =
-            Number(parts[1]);
+} else if (selectedToDate) {
 
+    periodText =
+        `حتى ${selectedToDate}`;
 
-        const date =
-            new Date(
-                year,
-                month - 1,
-                1
-            );
-
-
-        const monthName =
-            date.toLocaleDateString(
-                "ar-SA",
-                {
-                    month: "long"
-                }
-            );
-
-
-        periodText =
-            `${monthName} ${year}`;
-
-    }
+}
 
 
     /* ==========================
