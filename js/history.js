@@ -25,10 +25,47 @@ const toDate =
 /* ==========================================
    البيانات
 ========================================== */
+let transactions = STORAGE.getTransactions();
 
-let transactions =
-    STORAGE.getTransactions();
 
+/* ==========================================
+   تحميل العمليات من Google Sheets
+========================================== */
+
+async function loadTransactionsFromGoogle() {
+
+    try {
+
+        transactions =
+            await STORAGE.syncFromGoogle();
+
+        renderHistory(transactions);
+
+    } catch (error) {
+
+        console.error(
+            "تعذر تحميل العمليات من Google Sheets:",
+            error
+        );
+
+        /* في حالة فشل الاتصال
+           نعرض البيانات المحلية */
+
+        transactions =
+            STORAGE.getTransactions();
+
+        renderHistory(transactions);
+
+    }
+
+}
+
+
+/* ==========================================
+   تشغيل المزامنة
+========================================== */
+
+loadTransactionsFromGoogle();
 
 /* ==========================================
    عرض السجل
