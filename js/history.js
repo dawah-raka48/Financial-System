@@ -802,7 +802,29 @@ td:nth-child(7) {
     margin-bottom: 6px;
 
 }
+.summary-box .count {
 
+    display: block;
+
+    font-size: 15px;
+
+    font-weight: 700;
+
+    margin-bottom: 4px;
+
+}
+
+.summary-box .summary-amount {
+
+    display: block;
+
+    font-size: 11px;
+
+    font-weight: 600;
+
+    color: #333;
+
+}
 .summary-box .number {
 
     display: block;
