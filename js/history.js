@@ -1004,6 +1004,28 @@ td:nth-child(7) {
     </div>
 
 
+<div class="summary">
+
+    <div class="summary-box">
+
+        <span class="label">
+            سحب بنكي
+        </span>
+
+        <strong class="count">
+            ${bankWithdrawals} عملية
+        </strong>
+
+        <span class="summary-amount">
+            ${bankWithdrawalsTotal.toLocaleString("ar-SA", {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+            })} ريال
+        </span>
+
+    </div>
+
+
     <div class="summary-box">
 
         <span class="label">
@@ -1042,6 +1064,28 @@ td:nth-child(7) {
         </span>
 
     </div>
+
+
+    <div class="summary-box">
+
+        <span class="label">
+            إيداع كاش
+        </span>
+
+        <strong class="count">
+            ${cashDeposits} عملية
+        </strong>
+
+        <span class="summary-amount">
+            ${cashDepositsTotal.toLocaleString("ar-SA", {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+            })} ريال
+        </span>
+
+    </div>
+
+</div>
 
 
     <div class="summary-box">
